@@ -1,5 +1,5 @@
 state("PPSSPPWindows64") { }
-state("PPSSPPWindows64", "1.7.x") { }
+state("PPSSPPWindows64", "1.7.4") { }
 state("PPSSPPWindows64", "1.8.0") { }
 
 startup {
@@ -11,9 +11,9 @@ init
 	vars.watchers = new MemoryWatcherList();
 	vars.offset = 0;
 
-	if (game.MainWindowTitle.StartsWith("PPSSPP v1.7"))
+	if (game.MainWindowTitle.StartsWith("PPSSPP v1.7.4"))
 	{
-		version = "1.7.x";
+		version = "1.7.4";
 		vars.offset = 0xD91250;
 	} else if (game.MainWindowTitle.StartsWith("PPSSPP v1.8.0"))
 	{
