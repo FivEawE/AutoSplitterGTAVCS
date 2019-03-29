@@ -3,7 +3,9 @@ state("PPSSPPWindows64", "1.7.4") { }
 state("PPSSPPWindows64", "1.8.0") { }
 
 startup {
-
+	settings.Add("balloons", false, "All Red Balloons");
+	settings.Add("balloons10", false, "Split every 10 balloons", "balloons");
+	settings.Add("stunts", false, "All Unique Stunt Jumps");
 }
 
 init
@@ -15,11 +17,14 @@ init
 	{
 		version = "1.7.4";
 		vars.offset = 0xD91250;
-	} else if (game.MainWindowTitle.StartsWith("PPSSPP v1.8.0"))
+	}
+	else if (game.MainWindowTitle.StartsWith("PPSSPP v1.8.0"))
 	{
 		version = "1.8.0";
 		vars.offset = 0xDC8FB0;
-	} else {
+	}
+	else
+	{
 		version = "";
 	}
 	
@@ -39,24 +44,48 @@ update
 
 split
 {
-	if (vars.watchers["BalloonsPopped"].Current > vars.watchers["BalloonsPopped"].Old)
+	if (settings["balloons"])
 	{
-		return true;
+		if (settings["balloons10"])
+		{
+			if (vars.watchers["BalloonsPopped"].Current > vars.watchers["BalloonsPopped"].Old && (vars.watchers["BalloonsPopped"].Current % 10 == 0 || vars.watchers["BalloonsPopped"].Current % 99 == 0))
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if (vars.watchers["BalloonsPopped"].Current > vars.watchers["BalloonsPopped"].Old)
+			{
+				return true;
+			}
+		}
 	}
-	if (vars.watchers["StuntsCompleted"].Current > vars.watchers["StuntsCompleted"].Old)
+	
+	if (settings["stunts"])
 	{
-		return true;
+		if (vars.watchers["StuntsCompleted"].Current > vars.watchers["StuntsCompleted"].Old)
+		{
+			return true;
+		}
 	}
 }
 
 reset
 {
-	if (vars.watchers["BalloonsPopped"].Current < vars.watchers["BalloonsPopped"].Old)
+	if (settings["balloons"])
 	{
-		return true;
+		if (vars.watchers["BalloonsPopped"].Current < vars.watchers["BalloonsPopped"].Old)
+		{
+			return true;
+		}
 	}
-	if (vars.watchers["StuntsCompleted"].Current < vars.watchers["StuntsCompleted"].Old)
+	
+	if (settings["stunts"])
 	{
-		return true;
+		if (vars.watchers["StuntsCompleted"].Current < vars.watchers["StuntsCompleted"].Old)
+		{
+			return true;
+		}
 	}
 }
