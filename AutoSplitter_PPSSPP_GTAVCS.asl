@@ -24,6 +24,7 @@ init
 	}
 	
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
 }
 
 update
@@ -42,11 +43,19 @@ split
 	{
 		return true;
 	}
+	if (vars.watchers["StuntsCompleted"].Current > vars.watchers["StuntsCompleted"].Old)
+	{
+		return true;
+	}
 }
 
 reset
 {
 	if (vars.watchers["BalloonsPopped"].Current < vars.watchers["BalloonsPopped"].Old)
+	{
+		return true;
+	}
+	if (vars.watchers["StuntsCompleted"].Current < vars.watchers["StuntsCompleted"].Old)
 	{
 		return true;
 	}
