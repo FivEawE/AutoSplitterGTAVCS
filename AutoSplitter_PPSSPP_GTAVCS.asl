@@ -31,8 +31,17 @@ init
 		version = "";
 	}
 	
+	//Mission Attempts have different offsets in EU and US versions
+	if (game.MainWindowTitle.Contains("ULES"))
+	{
+		vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x8BB40FC)) { Name = "MissionAttempts" });
+	}
+	else
+	{
+		vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x8BB3D1C)) { Name = "MissionAttempts" });
+	}
+	
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offsetKeys)) { Name = "KeysPressed" });
-	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x8BB40FC)) { Name = "MissionAttempts" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
 }

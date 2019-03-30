@@ -34,6 +34,10 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 ## Changelog
 
+### Version 0.4.1
+
+* Hot fix for broken Mission Attempts counter on US version. GER version might be broken as well. If you have EU, skip this version. If you have US, make sure to **start LiveSplit after you load the game**.
+
 ### Version 0.4
 
 * Automatic timer starting after you press the **X** button to skip the first cutscene.
