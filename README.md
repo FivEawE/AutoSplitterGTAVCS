@@ -4,6 +4,7 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 ## Features
 
+* Automatically starts and resets the timer
 * Automatic splitting for categories:
 	* All Red Balloons
 	* All Unique Stunt Jumps
@@ -20,8 +21,6 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 * If everything went correctly, you should see that the options **Split** and **Reset** are not grayed out anymore and the version of your PPSSPP next to it.
 * Select from the settings below what category you want to run (you can even combine categories).
 
-Note: You still have to start the timer in order for the Auto Splitter to split.
-
 ## Supported PPSSPP versions
 
 * 1.8.0 64 bit
@@ -34,6 +33,11 @@ Note: You still have to start the timer in order for the Auto Splitter to split.
 * GER (ULES-00503)
 
 ## Changelog
+
+### Version 0.4
+
+* Automatic timer starting after you press the **X** button to skip the first cutscene.
+* Reworked resetting.
 
 ### Version 0.3
 
