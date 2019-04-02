@@ -5,6 +5,7 @@ state("PPSSPPWindows64", "1.8.0 EU") { }
 state("PPSSPPWindows64", "1.8.0 US") { }
 
 startup {
+	settings.Add("any", false, "any%");
 	settings.Add("balloons", false, "All Red Balloons");
 	settings.Add("balloons10", false, "Split every 10 balloons", "balloons");
 	settings.Add("stunts", false, "All Unique Stunt Jumps");
@@ -13,10 +14,15 @@ startup {
 init
 {
 	vars.watchers = new MemoryWatcherList();
+	
+	//Base offsets
 	vars.offset = 0;
 	vars.offsetKeys = 0;
-	vars.offsetMissionAttempts = 0;
+	
+	//Regular offsets
 	vars.offsetMovementLock = 0;
+	vars.offsetMissionAttempts = 0;
+	vars.offsetMissionsPassed = 0;
 
 	switch (modules.First().FileVersionInfo.FileVersion)
 	{
@@ -41,17 +47,20 @@ init
 		version += " US";
 		vars.offsetMissionAttempts = 0x8BB3D1C;
 		vars.offsetMovementLock = 0x8BDE6AA;
+		vars.offsetMissionsPassed = 0x8BB3D28;
 	}
 	else
 	{
 		version += " EU";
 		vars.offsetMissionAttempts = 0x8BB40FC;
 		vars.offsetMovementLock = 0x8BDEA6A;
+		vars.offsetMissionsPassed = 0x8BB4108;
 	}
 	
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offsetKeys)) { Name = "KeysPressed" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMovementLock)) { Name = "MovementLock" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionAttempts)) { Name = "MissionAttempts" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionsPassed)) { Name = "MissionsPassed" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
 }
@@ -76,6 +85,14 @@ update
 
 split
 {
+	if (settings["any"])
+	{
+		if (vars.watchers["MissionsPassed"].Current > vars.watchers["MissionsPassed"].Old)
+		{
+			return true;
+		}
+	}
+	
 	if (settings["balloons"])
 	{
 		if (settings["balloons10"])
