@@ -12,8 +12,8 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 ## Installation
 
-* Download or clone from this repository.
-* Open PPSSPP first.
+* Download or clone this repository.
+* Open PPSSPP and load the game first (if not, the Auto Splitter will default to EU version).
 * Open LiveSplit, right-click the timer and choose **Edit Layout...**.
 * A new window will pop up, click on the **+** on the top left side. Navigate to **Control** and select **Scriptable Auto Splitter**.
 * A new item will show up in the list, called **Scriptable Auto Splitter**. Double-click it.
@@ -30,9 +30,15 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 * EU (ULES-00502)
 * US (ULUS-10160)
-* GER (ULES-00503)
 
 ## Changelog
+
+### Version 0.5
+
+* Improved automatic timer starting.
+* PPSSPP Gold support.
+* Dropped support for GER since no one will run it and maintaining it would be just a waste of time.
+* Still needs to start the game first in order to correctly pick up the version.
 
 ### Version 0.4.1
 
