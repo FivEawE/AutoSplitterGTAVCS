@@ -6,6 +6,7 @@ state("PPSSPPWindows64", "1.8.0 US") { }
 
 startup {
 	settings.Add("any", false, "any%");
+	settings.Add("splitDupe", false, "Split on duped missions", "any");
 	settings.Add("balloons", false, "All Red Balloons");
 	settings.Add("balloons10", false, "Split every 10 balloons", "balloons");
 	settings.Add("stunts", false, "All Unique Stunt Jumps");
@@ -63,6 +64,9 @@ init
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionsPassed)) { Name = "MissionsPassed" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
+	
+	//Other variables
+	vars.missionStarted = false;
 }
 
 start
@@ -81,6 +85,12 @@ update
 	}
 	
 	vars.watchers.UpdateAll(game);
+	
+	//Used for "splitDupe" setting
+	if (vars.watchers["MissionAttempts"].Current > vars.watchers["MissionAttempts"].Old)
+	{
+		vars.missionStarted = true;
+	}
 }
 
 split
@@ -89,7 +99,18 @@ split
 	{
 		if (vars.watchers["MissionsPassed"].Current > vars.watchers["MissionsPassed"].Old)
 		{
-			return true;
+			if (settings["splitDupe"])
+			{
+				return true;
+			}
+			else
+			{
+				if (vars.missionStarted)
+				{
+					vars.missionStarted = false;
+					return true;
+				}
+			}
 		}
 	}
 	
@@ -122,7 +143,7 @@ split
 
 reset
 {
-	if (vars.watchers["MissionAttempts"].Current == 0)
+	if (vars.watchers["MissionAttempts"].Current == 0 && !settings["any"])
 	{
 		return true;
 	}
