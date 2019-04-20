@@ -7,6 +7,7 @@ state("PPSSPPWindows64", "1.8.0 US") { }
 startup {
 	settings.Add("any", false, "any%");
 	settings.Add("splitDupe", false, "Split on duped missions", "any");
+	settings.Add("empires", false, "Split on empires takeover", "any");
 	settings.Add("balloons", false, "All Red Balloons");
 	settings.Add("balloons10", false, "Split every 10 balloons", "balloons");
 	settings.Add("stunts", false, "All Unique Stunt Jumps");
@@ -64,6 +65,7 @@ init
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionsPassed)) { Name = "MissionsPassed" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6B344)) { Name = "Empires" });
 	
 	//Other variables
 	vars.missionStarted = false;
@@ -110,6 +112,13 @@ split
 					vars.missionStarted = false;
 					return true;
 				}
+			}
+		}
+		if (settings["empires"])
+		{
+			if (vars.watchers["Empires"].Current > vars.watchers["Empires"].Old)
+			{
+				return true;
 			}
 		}
 	}
