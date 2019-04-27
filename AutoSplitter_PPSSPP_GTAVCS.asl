@@ -69,6 +69,8 @@ init
 	
 	//Other variables
 	vars.missionStarted = false;
+	vars.missionPassedOld = 0;
+	vars.missionPassedNew = 0;
 }
 
 start
@@ -93,26 +95,33 @@ update
 	{
 		vars.missionStarted = true;
 	}
+	
+	//Prevent splitting on reloads
+	if (vars.watchers["MissionsPassed"].Current > vars.watchers["MissionsPassed"].Old && vars.watchers["MissionsPassed"].Current > vars.missionPassedNew)
+	{
+		if (settings["splitDupe"])
+		{
+			vars.missionPassedNew++;
+		}
+		else
+		{
+			if (vars.missionStarted)
+			{
+				vars.missionStarted = false;
+				vars.missionPassedNew++;
+			}
+		}
+	}
 }
 
 split
 {
 	if (settings["any"])
 	{
-		if (vars.watchers["MissionsPassed"].Current > vars.watchers["MissionsPassed"].Old)
+		if (vars.missionPassedNew > vars.missionPassedOld)
 		{
-			if (settings["splitDupe"])
-			{
-				return true;
-			}
-			else
-			{
-				if (vars.missionStarted)
-				{
-					vars.missionStarted = false;
-					return true;
-				}
-			}
+			vars.missionPassedOld++;
+			return true;
 		}
 		if (settings["empires"])
 		{
