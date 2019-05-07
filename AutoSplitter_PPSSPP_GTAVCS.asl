@@ -97,7 +97,7 @@ update
 	}
 	
 	//Prevent splitting on reloads
-	if (vars.watchers["MissionsPassed"].Current > vars.watchers["MissionsPassed"].Old && vars.watchers["MissionsPassed"].Current > vars.missionPassedNew)
+	if (vars.watchers["MissionsPassed"].Current > vars.watchers["MissionsPassed"].Old)
 	{
 		if (settings["splitDupe"])
 		{
