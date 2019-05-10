@@ -11,6 +11,7 @@ startup {
 	settings.Add("balloons", false, "All Red Balloons");
 	settings.Add("balloons10", false, "Split every 10 balloons", "balloons");
 	settings.Add("stunts", false, "All Unique Stunt Jumps");
+	settings.Add("rampages", false, "All Rampages");
 }
 
 init
@@ -25,6 +26,7 @@ init
 	vars.offsetMovementLock = 0;
 	vars.offsetMissionAttempts = 0;
 	vars.offsetMissionsPassed = 0;
+	vars.offsetRampages = 0;
 
 	switch (modules.First().FileVersionInfo.FileVersion)
 	{
@@ -50,6 +52,7 @@ init
 		vars.offsetMissionAttempts = 0x8BB3D1C;
 		vars.offsetMovementLock = 0x8BDE6AA;
 		vars.offsetMissionsPassed = 0x8BB3D28;
+		vars.offsetRampages = 0x8BF1AD4;
 	}
 	else
 	{
@@ -57,6 +60,7 @@ init
 		vars.offsetMissionAttempts = 0x8BB40FC;
 		vars.offsetMovementLock = 0x8BDEA6A;
 		vars.offsetMissionsPassed = 0x8BB4108;
+		vars.offsetRampages = 0x8BF1E94;
 	}
 	
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offsetKeys)) { Name = "KeysPressed" });
@@ -65,12 +69,16 @@ init
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionsPassed)) { Name = "MissionsPassed" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetRampages)) { Name = "RampagesCompleted" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6B344)) { Name = "Empires" });
 	
 	//Other variables
 	vars.missionStarted = false;
 	vars.missionPassedOld = 0;
 	vars.missionPassedNew = 0;
+	vars.balloonsPopped = 0;
+	vars.stuntsCompleted = 0;
+	vars.rampagesCompleted = 0;
 }
 
 start
@@ -125,7 +133,8 @@ split
 		}
 		if (settings["empires"])
 		{
-			if (vars.watchers["Empires"].Current > vars.watchers["Empires"].Old)
+			//Prevent splitting on O, Brothel, Where Art Thou?
+			if (!vars.missionStarted && vars.watchers["Empires"].Current > vars.watchers["Empires"].Old)
 			{
 				return true;
 			}
@@ -143,8 +152,9 @@ split
 		}
 		else
 		{
-			if (vars.watchers["BalloonsPopped"].Current > vars.watchers["BalloonsPopped"].Old)
+			if (vars.watchers["BalloonsPopped"].Current > vars.watchers["BalloonsPopped"].Old && vars.watchers["BalloonsPopped"].Current > vars.balloonsPopped)
 			{
+				vars.balloonsPopped++;
 				return true;
 			}
 		}
@@ -152,8 +162,18 @@ split
 	
 	if (settings["stunts"])
 	{
-		if (vars.watchers["StuntsCompleted"].Current > vars.watchers["StuntsCompleted"].Old)
+		if (vars.watchers["StuntsCompleted"].Current > vars.watchers["StuntsCompleted"].Old && vars.watchers["StuntsCompleted"].Current > vars.stuntsCompleted)
 		{
+			vars.stuntsCompleted++;
+			return true;
+		}
+	}
+	
+	if (settings["rampages"])
+	{
+		if (vars.watchers["RampagesCompleted"].Current > vars.watchers["RampagesCompleted"].Old && vars.watchers["RampagesCompleted"].Current > vars.rampagesCompleted)
+		{
+			vars.rampagesCompleted++;
 			return true;
 		}
 	}
@@ -163,6 +183,11 @@ reset
 {
 	if (vars.watchers["MissionAttempts"].Current == 0 && !settings["any"])
 	{
+		vars.missionPassedOld = 0;
+		vars.missionPassedNew = 0;
+		vars.balloonsPopped = 0;
+		vars.stuntsCompleted = 0;
+		vars.rampagesCompleted = 0;
 		return true;
 	}
 }

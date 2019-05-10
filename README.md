@@ -6,8 +6,10 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 * Automatically starts and resets the timer
 * Automatic splitting for categories:
+	* any%
 	* All Red Balloons
 	* All Unique Stunt Jumps
+	* All Rampages
 * Supports 64 bit version of PPSSPP
 
 ## Installation
@@ -32,6 +34,12 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 * US (ULUS-10160)
 
 ## Changelog
+
+### Version 0.6
+
+* Added any%.
+* Added All Rampages.
+* Fixed splitting on reloads (any% was affected as well as combinations of collectibles with any%).
 
 ### Version 0.5
 
