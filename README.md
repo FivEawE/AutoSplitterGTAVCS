@@ -35,6 +35,10 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 ## Changelog
 
+### Version 0.6.1
+
+* Resetting of the needed variables is now done at the start of the timer.
+
 ### Version 0.6
 
 * Added any%.

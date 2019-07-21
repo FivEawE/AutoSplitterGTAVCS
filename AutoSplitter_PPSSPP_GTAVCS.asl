@@ -85,6 +85,14 @@ start
 {
 	if (vars.watchers["MovementLock"].Current == 0x20 && vars.watchers["MissionAttempts"].Current == 1 && vars.watchers["KeysPressed"].Current == 0x4000)
 	{
+		//Reset the variables here
+		vars.missionStarted = false;
+		vars.missionPassedOld = 0;
+		vars.missionPassedNew = 0;
+		vars.balloonsPopped = 0;
+		vars.stuntsCompleted = 0;
+		vars.rampagesCompleted = 0;
+		
 		return true;
 	}
 }
@@ -183,11 +191,6 @@ reset
 {
 	if (vars.watchers["MissionAttempts"].Current == 0 && !settings["any"])
 	{
-		vars.missionPassedOld = 0;
-		vars.missionPassedNew = 0;
-		vars.balloonsPopped = 0;
-		vars.stuntsCompleted = 0;
-		vars.rampagesCompleted = 0;
 		return true;
 	}
 }
