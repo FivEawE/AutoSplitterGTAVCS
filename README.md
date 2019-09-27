@@ -25,6 +25,7 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 
 ## Supported PPSSPP versions
 
+* 1.9.0 64 bit
 * 1.8.0 64 bit
 * 1.7.4 64 bit
 
@@ -34,6 +35,10 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 * US (ULUS-10160)
 
 ## Changelog
+
+### Version 0.6.2
+
+* Added support for PPSSPP 1.9.0 64 bit version.
 
 ### Version 0.6.1
 

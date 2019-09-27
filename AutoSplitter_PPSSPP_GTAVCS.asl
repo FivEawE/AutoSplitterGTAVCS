@@ -3,6 +3,8 @@ state("PPSSPPWindows64", "1.7.4 EU") { }
 state("PPSSPPWindows64", "1.7.4 US") { }
 state("PPSSPPWindows64", "1.8.0 EU") { }
 state("PPSSPPWindows64", "1.8.0 US") { }
+state("PPSSPPWindows64", "1.9.0 EU") { }
+state("PPSSPPWindows64", "1.9.0 US") { }
 
 startup {
 	settings.Add("any", false, "any%");
@@ -40,8 +42,13 @@ init
 			vars.offset = 0xDC8FB0;
 			vars.offsetKeys = 0xDE9254;
 			break;
+		case "v1.9":
+			version = "1.9.0";
+			vars.offset = 0xD8AF70;
+			vars.offsetKeys = 0xDA12A4;
+			break;
 		default:
-			version = "";
+			version = "Unknown version";
 			break;
 	}
 	
