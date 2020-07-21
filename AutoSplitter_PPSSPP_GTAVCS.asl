@@ -1,10 +1,6 @@
 state("PPSSPPWindows64") { }
-state("PPSSPPWindows64", "1.7.4 EU") { }
-state("PPSSPPWindows64", "1.7.4 US") { }
-state("PPSSPPWindows64", "1.8.0 EU") { }
-state("PPSSPPWindows64", "1.8.0 US") { }
-state("PPSSPPWindows64", "1.9.0 EU") { }
-state("PPSSPPWindows64", "1.9.0 US") { }
+state("PPSSPPWindows64", "EU") { }
+state("PPSSPPWindows64", "US") { }
 
 startup {
 	settings.Add("any", false, "any%");
@@ -29,33 +25,11 @@ init
 	vars.offsetMissionAttempts = 0;
 	vars.offsetMissionsPassed = 0;
 	vars.offsetRampages = 0;
-
-	switch (modules.First().FileVersionInfo.FileVersion)
-	{
-		case "v1.7.4":
-			version = "1.7.4";
-			vars.offset = 0xD91250;
-			vars.offsetKeys = 0xDB14F4;
-			break;
-		case "v1.8.0":
-			version = "1.8.0";
-			vars.offset = 0xDC8FB0;
-			vars.offsetKeys = 0xDE9254;
-			break;
-		case "v1.9":
-			version = "1.9.0";
-			vars.offset = 0xD8AF70;
-			vars.offsetKeys = 0xDA12A4;
-			break;
-		default:
-			version = "Unknown version";
-			break;
-	}
 	
 	//Some things have different offsets in EU and US versions, defaults to EU
 	if (game.MainWindowTitle.Contains("ULUS10160"))
 	{
-		version += " US";
+		version = "US";
 		vars.offsetMissionAttempts = 0x8BB3D1C;
 		vars.offsetMovementLock = 0x8BDE6AA;
 		vars.offsetMissionsPassed = 0x8BB3D28;
@@ -63,12 +37,22 @@ init
 	}
 	else
 	{
-		version += " EU";
+		version = "EU";
 		vars.offsetMissionAttempts = 0x8BB40FC;
 		vars.offsetMovementLock = 0x8BDEA6A;
 		vars.offsetMissionsPassed = 0x8BB4108;
 		vars.offsetRampages = 0x8BF1E94;
 	}
+	
+	var page = modules.First();
+    var scanner = new SignatureScanner(game, page.BaseAddress, page.ModuleMemorySize);
+
+    IntPtr offsetPtr = scanner.Scan(new SigScanTarget(22, "41 B9 ?? 05 00 00 48 89 44 24 20 8D 4A FC E8 ?? ?? ?? FF 48 8B 0D ?? ?? ?? 00 48 03 CB"));
+    IntPtr offsetKeysPtr = scanner.Scan(new SigScanTarget(37, "?? 8B CA ?? 03 C9 ?? 8D 1D ?? ?? ?? ?? 0F 10 05 ?? ?? ?? ?? ?? 0F 11 ?? ?? ?? 8B 44 ?? ?? ?? 89 44 ?? ?? 8B 0D ?? ?? ?? ?? 8B C1 ?? 33 C0 8B D0 ?? 23 D0"));
+
+    vars.offset = (int) (offsetPtr.ToInt64() - page.BaseAddress.ToInt64() + game.ReadValue<int>(offsetPtr) + 0x4);
+	vars.offsetKeys = (int) (offsetKeysPtr.ToInt64() - page.BaseAddress.ToInt64() + game.ReadValue<int>(offsetKeysPtr) + 0x4);
+	print("" + vars.offsetKeys);
 	
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offsetKeys)) { Name = "KeysPressed" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMovementLock)) { Name = "MovementLock" });
@@ -167,7 +151,7 @@ split
 		}
 		else
 		{
-			if (vars.watchers["BalloonsPopped"].Current > vars.watchers["BalloonsPopped"].Old && vars.watchers["BalloonsPopped"].Current > vars.balloonsPopped)
+			if (vars.watchers["BalloonsPopped"].Current > vars.balloonsPopped)
 			{
 				vars.balloonsPopped++;
 				return true;
@@ -177,7 +161,7 @@ split
 	
 	if (settings["stunts"])
 	{
-		if (vars.watchers["StuntsCompleted"].Current > vars.watchers["StuntsCompleted"].Old && vars.watchers["StuntsCompleted"].Current > vars.stuntsCompleted)
+		if (vars.watchers["StuntsCompleted"].Current > vars.stuntsCompleted)
 		{
 			vars.stuntsCompleted++;
 			return true;
@@ -186,7 +170,7 @@ split
 	
 	if (settings["rampages"])
 	{
-		if (vars.watchers["RampagesCompleted"].Current > vars.watchers["RampagesCompleted"].Old && vars.watchers["RampagesCompleted"].Current > vars.rampagesCompleted)
+		if (vars.watchers["RampagesCompleted"].Current > vars.rampagesCompleted)
 		{
 			vars.rampagesCompleted++;
 			return true;
