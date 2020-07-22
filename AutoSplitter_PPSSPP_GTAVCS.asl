@@ -45,9 +45,9 @@ init
 		vars.offsetMissionAttempts = 0x8BB3F94;
 		vars.offsetMovementLock = 0x8BCEA7A;
 		vars.offsetMissionsPassed = 0x8BB3F98;
-		vars.offsetRampages = 0x8BF1AD4;
+		vars.offsetRampages = 0x8BB3FD8;
 		vars.offsetJumps = 0x8BB3F8C;
-		vars.offsetBalloons = 0x8E47E40;
+		vars.offsetBalloons = 0x9F71F60;
 		vars.offsetEmpires = 0x8E7BC20;
 	}
 	else
