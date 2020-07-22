@@ -1,6 +1,7 @@
 state("PPSSPPWindows64") { }
 state("PPSSPPWindows64", "EU") { }
 state("PPSSPPWindows64", "US") { }
+state("PPSSPPWindows64", "JP") { }
 
 startup {
 	settings.Add("any", false, "any%");
@@ -25,6 +26,9 @@ init
 	vars.offsetMissionAttempts = 0;
 	vars.offsetMissionsPassed = 0;
 	vars.offsetRampages = 0;
+	vars.offsetJumps = 0x9F69A58;
+	vars.offsetBalloons = 0x9F6A338;
+	vars.offsetEmpires = 0x9F6B344;
 	
 	//Some things have different offsets in EU and US versions, defaults to EU
 	if (game.MainWindowTitle.Contains("ULUS10160"))
@@ -34,6 +38,17 @@ init
 		vars.offsetMovementLock = 0x8BDE6AA;
 		vars.offsetMissionsPassed = 0x8BB3D28;
 		vars.offsetRampages = 0x8BF1AD4;
+	}
+	else if (game.MainWindowTitle.Contains("ULJM05884"))
+	{
+		version = "JP";
+		vars.offsetMissionAttempts = 0x8BB3F94;
+		vars.offsetMovementLock = 0x8BCEA7A;
+		vars.offsetMissionsPassed = 0x8BB3F98;
+		vars.offsetRampages = 0x8BF1AD4;
+		vars.offsetJumps = 0x8BB3F8C;
+		vars.offsetBalloons = 0x8E47E40;
+		vars.offsetEmpires = 0x8E7BC20;
 	}
 	else
 	{
@@ -58,10 +73,10 @@ init
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMovementLock)) { Name = "MovementLock" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionAttempts)) { Name = "MissionAttempts" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetMissionsPassed)) { Name = "MissionsPassed" });
-	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6A338)) { Name = "BalloonsPopped" });
-	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F69A58)) { Name = "StuntsCompleted" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetBalloons)) { Name = "BalloonsPopped" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetJumps)) { Name = "StuntsCompleted" });
 	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetRampages)) { Name = "RampagesCompleted" });
-	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, 0x9F6B344)) { Name = "Empires" });
+	vars.watchers.Add(new MemoryWatcher<int>(new DeepPointer(vars.offset, vars.offsetEmpires)) { Name = "Empires" });
 	
 	//Other variables
 	vars.missionStarted = false;
