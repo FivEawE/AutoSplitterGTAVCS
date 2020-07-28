@@ -20,21 +20,25 @@ An Auto Splitter for GTA: Vice City Stories running in PPSSPP emulator.
 * A new window will pop up, click on the **+** on the top left side. Navigate to **Control** and select **Scriptable Auto Splitter**.
 * A new item will show up in the list, called **Scriptable Auto Splitter**. Double-click it.
 * A new window will appear. Use **Browse...** near the **Script Path** field to select the downloaded (cloned) **AutoSplitter_PPSSPP_GTAVCS.asl**.
-* If everything went correctly, you should see that the options **Split** and **Reset** are not grayed out anymore and the version of your PPSSPP next to it.
+* If everything went correctly, you should see that the options **Split** and **Reset** are not grayed out anymore and the version of the game next to it.
 * Select from the settings below what category you want to run (you can even combine categories).
 
 ## Supported PPSSPP versions
 
-* 1.9.0 64 bit
-* 1.8.0 64 bit
-* 1.7.4 64 bit
+Probably any recent version of PPSSPP. If something does not work, please, open up an issue.
 
 ## Supported game versions
 
 * EU (ULES-00502)
 * US (ULUS-10160)
+* JP (ULJM-05884)
 
 ## Changelog
+
+### Version 0.7
+
+* Changed the way the offsets are retrieved. Now the autosplitter should support new PPSSPP releases without changing a single line of code.
+* Added support for Japanese version.
 
 ### Version 0.6.2
 
