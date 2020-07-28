@@ -37,7 +37,7 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 
 ### Version 0.7
 
-* Changed the way the offsets are retrieved. Now the autosplitter should support new PPSSPP releases without changing a single line of code.
+* Changed the way the offsets are retrieved. Now the autosplitter should support new PPSSPP releases without changing a single line of code (thanks to Parik's help).
 * Added support for Japanese version.
 
 ### Version 0.6.2
@@ -101,3 +101,4 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 
 * NABN00B
 * Fryterp23
+* Parik
