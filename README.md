@@ -35,6 +35,11 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 
 ## Changelog
 
+### Version 1.0
+
+* New timing - start and final split has been altered according to the new rules. Now it even performs the final split when the credits start (you need a separate split for credits though)!
+* Splitting on mission start added as well (splits when credits start as well).
+
 ### Version 0.7
 
 * Changed the way the offsets are retrieved. Now the autosplitter should support new PPSSPP releases without changing a single line of code (thanks to Parik's help).
@@ -93,7 +98,7 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 ## Useful Links
 
 * [Cheat Engine Tutorials](https://wiki.cheatengine.org/index.php?title=Tutorials)
-* [LiveSplit ASL Documentation](https://github.com/LiveSplit/LiveSplit/blob/master/Documentation/Auto-Splitters.md)
+* [LiveSplit ASL Documentation](https://github.com/LiveSplit/LiveSplit.AutoSplitters/blob/master/README.md)
 * [zoton2's Auto Splitters](https://github.com/zoton2/LiveSplit.Scripts)
 * [NABN00B's GTA: Liberty City Stories Auto Splitter](https://github.com/DavidTamas/LiveSplit.Autosplitters)
 
