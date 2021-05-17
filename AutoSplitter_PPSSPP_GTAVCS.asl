@@ -2,6 +2,7 @@ state("PPSSPPWindows64") { }
 state("PPSSPPWindows64", "EU") { }
 state("PPSSPPWindows64", "US") { }
 state("PPSSPPWindows64", "JP") { }
+state("PPSSPPWindows64", "JP (Rockstar Classics)") { }
 
 startup {
 	settings.Add("any", false, "any%");
@@ -43,18 +44,28 @@ init
 		vars.offsetRampages = 0x8BF1AD4;
 		vars.offsetMission = 0x9315D63;
 	}
-	else if (game.MainWindowTitle.Contains("ULJM05884"))
+	// Different Japanese version have some different offsets
+	else if (game.MainWindowTitle.Contains("ULJM"))
 	{
-		version = "JP";
 		vars.offsetMissionAttempts = 0x8BB3F94;
 		vars.offsetMovementLock = 0x8BCEA7A;
 		vars.offsetMissionsPassed = 0x8BB3F98;
 		vars.offsetRampages = 0x8BB3FD8;
 		vars.offsetJumps = 0x8BB3F8C;
-		vars.offsetBalloons = 0x9F71F60;
-		vars.offsetEmpires = 0x8E7BC20;
 		vars.offsetMission = 0x931A163;
 		vars.offsetLoads = 0x8E7A760;
+		if (game.MainWindowTitle.Contains("ULJM05297"))
+		{
+			version = "JP";
+			vars.offsetBalloons = 0x9F71F40;
+			vars.offsetEmpires = 0x9F72F4C;
+		}
+		else if (game.MainWindowTitle.Contains("ULJM05884"))
+		{
+			version = "JP (Rockstar Classics)";
+			vars.offsetBalloons = 0x9F71F60;
+			vars.offsetEmpires = 0x8E7BC20;
+		}
 	}
 	else
 	{
@@ -197,7 +208,7 @@ update
 	}
 	
 	vars.watchers.UpdateAll(game);
-	
+
 	//See reset
 	if (vars.frames < vars.waitFrames)
 	{
@@ -309,7 +320,7 @@ split
 		if (vars.watchers["RampagesCompleted"].Current > vars.rampagesCompleted)
 		{
 			vars.rampagesCompleted++;
-			return true;
+			return true; 
 		}
 	}
 }
