@@ -44,7 +44,7 @@ init
 		vars.offsetRampages = 0x8BF1AD4;
 		vars.offsetMission = 0x9315D63;
 	}
-	// Different Japanese version have some different offsets
+	//Different Japanese version have some different offsets
 	else if (game.MainWindowTitle.Contains("ULJM"))
 	{
 		vars.offsetMissionAttempts = 0x8BB3F94;
@@ -320,7 +320,7 @@ split
 		if (vars.watchers["RampagesCompleted"].Current > vars.rampagesCompleted)
 		{
 			vars.rampagesCompleted++;
-			return true; 
+			return true;
 		}
 	}
 }

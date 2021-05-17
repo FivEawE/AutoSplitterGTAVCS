@@ -36,8 +36,8 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 
 ## Changelog
 
-### Version 1.0.1
-* Add support for JP (ULJM-05297).
+### Version 1.1
+* Added support for JP (ULJM-05297) version of the game by hoxi.
 
 ### Version 1.0
 
@@ -111,3 +111,4 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 * NABN00B
 * Fryterp23
 * Parik
+* hoxi
