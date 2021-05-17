@@ -32,8 +32,12 @@ Probably any recent version of PPSSPP. If something does not work, please, open 
 * EU (ULES-00502)
 * US (ULUS-10160)
 * JP (ULJM-05884)
+* JP (ULJM-05297)
 
 ## Changelog
+
+### Version 1.0.1
+* Add support for JP (ULJM-05297).
 
 ### Version 1.0
 
