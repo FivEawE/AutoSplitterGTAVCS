@@ -208,7 +208,7 @@ update
 	}
 	
 	vars.watchers.UpdateAll(game);
-	
+
 	//See reset
 	if (vars.frames < vars.waitFrames)
 	{
@@ -275,7 +275,6 @@ split
 		if (vars.missionPassedNew > vars.missionPassedOld)
 		{
 			vars.missionPassedOld++;
-			print("mission split");
 			return true;
 		}
 		if (settings["empires"])
