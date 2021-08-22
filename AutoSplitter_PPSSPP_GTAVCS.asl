@@ -218,8 +218,9 @@ update
 	if (settings["any"])
 	{
 		//Last Lance mission is tad longer
+		//The empty string comparison is needed because at one frame on a mission start the current mission string is set to an empty string
 		string mission = vars.watchers["Mission"].Current;
-		if (mission != "LAN_C10")
+		if (mission != "LAN_C10" && mission != "")
 		{
 			mission = mission.Substring(0, 6);
 		}
